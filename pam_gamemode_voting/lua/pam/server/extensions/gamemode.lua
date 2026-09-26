@@ -3,19 +3,14 @@ PAM_EXTENSION.name = name
 PAM_EXTENSION.enabled = true
 
 local setting_namespace = PAM.setting_namespace:AddChild(name)
-PAM_EXTENSION.vote_length_setting = setting_namespace:AddSetting("vote_length", pacoman.TYPE_INTEGER, 30, "The length of the gamemode voting time in seconds.")
 PAM_EXTENSION.blacklist_setting = setting_namespace:AddSetting("blacklist", pacoman.TYPE_STRING, "base", "Gamemodes that are listed here won't be available.")
 
 function PAM_EXTENSION:RegisterSpecialOptions()
-	if PAM.vote_type ~= "map" then return end
+	if PAM.vote_type == "gamemode" then return end
 
 	PAM.RegisterOption("change_gamemode", function()
 		PAM.Cancel()
-		PAM.Start("gamemode", self.vote_length_setting:GetActiveValue(), function(option)
-			PAM.ChangeGamemode(option)
-			PAM.Cancel()
-			PAM.Start()
-		end)
+		PAM.Start("gamemode")
 	end)
 end
 
