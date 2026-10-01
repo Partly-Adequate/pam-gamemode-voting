@@ -1,18 +1,9 @@
-local name = "gamemode"
+local name = "gamemode_provider"
 PAM_EXTENSION.name = name
 PAM_EXTENSION.enabled = true
 
 local setting_namespace = PAM.setting_namespace:AddChild(name)
 PAM_EXTENSION.blacklist_setting = setting_namespace:AddSetting("blacklist", pacoman.TYPE_STRING, "base", "Gamemodes that are listed here won't be available.")
-
-function PAM_EXTENSION:RegisterSpecialOptions()
-	if PAM.vote_type == "gamemode" then return end
-
-	PAM.RegisterOption("change_gamemode", function()
-		PAM.Cancel()
-		PAM.Start("gamemode")
-	end)
-end
 
 function PAM_EXTENSION:RegisterOptions()
 	if PAM.vote_type ~= "gamemode" then return end
